@@ -44,20 +44,37 @@ impl Organisation {
 
     fn list(&mut self, input_iter: &mut std::str::SplitWhitespace) {
         if let Some(department_name) = input_iter.next() {
-            if let Some(department) = self.employees_by_department
-                .get(&department_name.to_lowercase()) {
-                    for employee_name in department {
-                        println!("{}", employee_name);
-                    }
+            println!("--------------");
+            println!("{}", department_name);
+            println!("--------------");
+
+            let employees_option = self.employees_by_department
+                .get(&department_name.to_lowercase());
+
+            if let Some(employees) = employees_option {
+                for employee_name in employees {
+                    println!("{}", employee_name);
+                }
 
             } else {
                 println!("Unknown department");
                 return;
             }
+
+            println!("");
         }
         else {
-            println!("Missing department name");
-            return;
+            for (department_name, employees) in &self.employees_by_department {
+                println!("--------------");
+                println!("{}", department_name);
+                println!("--------------");
+
+                for employee_name in employees {
+                    println!("{}", employee_name);
+                }
+
+                println!("");
+            }
         }
     }
 }
@@ -97,3 +114,6 @@ pub fn start_repl() {
 // For example, “Add Sally to Engineering” or “Add Amir to Sales.” 
 // Then let the user retrieve a list of all people in a department or 
 // all people in the company by department, sorted alphabetically.
+
+// still need to list all in organisation alphabetically or 
+// all in department listed alphabetically
